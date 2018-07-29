@@ -4,7 +4,8 @@
 import {
 	registerBlockType,
 	setDefaultBlockName,
-	setUnknownTypeHandlerName,
+	setUnstructuredTypeHandlerName,
+	setUnregisteredTypeHandlerName,
 } from '@wordpress/blocks';
 
 /**
@@ -31,6 +32,7 @@ import * as file from '../packages/block-library/src/file';
 import * as latestComments from '../packages/block-library/src/latest-comments';
 import * as latestPosts from '../packages/block-library/src/latest-posts';
 import * as list from '../packages/block-library/src/list';
+import * as missing from '../packages/block-library/src/missing';
 import * as more from '../packages/block-library/src/more';
 import * as nextpage from '../packages/block-library/src/nextpage';
 import * as preformatted from '../packages/block-library/src/preformatted';
@@ -80,6 +82,7 @@ export const registerCoreBlocks = () => {
 		html,
 		latestComments,
 		latestPosts,
+		missing,
 		more,
 		nextpage,
 		preformatted,
@@ -97,5 +100,6 @@ export const registerCoreBlocks = () => {
 	} );
 
 	setDefaultBlockName( paragraph.name );
-	setUnknownTypeHandlerName( freeform.name );
+	setUnstructuredTypeHandlerName( freeform.name );
+	setUnregisteredTypeHandlerName( missing.name );
 };
