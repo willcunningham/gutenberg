@@ -405,9 +405,12 @@ export class BlockListBlock extends Component {
 		const shouldShowInsertionPoint = ( isPartOfMultiSelection && isFirst ) || ! isPartOfMultiSelection;
 		const canShowInBetweenInserter = ! isEmptyDefaultBlock && ! isPreviousBlockADefaultEmptyBlock;
 
+		// We allow an invalid block to be re-edited in HTML mode
+		const isValidMode = isValid || mode === 'html';
+
 		// Generate the wrapper class names handling the different states of the block.
 		const wrapperClassName = classnames( 'editor-block-list__block', {
-			'has-warning': ! isValid || !! error,
+			'has-warning': ! isValidMode || !! error,
 			'is-selected': shouldAppearSelected,
 			'is-multi-selected': isPartOfMultiSelection,
 			'is-selected-parent': shouldAppearSelectedParent,
@@ -543,10 +546,10 @@ export class BlockListBlock extends Component {
 				>
 					<BlockCrashBoundary onError={ this.onBlockError }>
 						{ isValid && blockEdit }
-						{ isValid && mode === 'html' && (
+						{ mode === 'html' && (
 							<BlockHtml clientId={ clientId } />
 						) }
-						{ ! isValid && [
+						{ ! isValidMode && [
 							<div key="invalid-preview">
 								{ getSaveElement( blockType, block.attributes ) }
 							</div>,

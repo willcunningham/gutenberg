@@ -35,7 +35,13 @@ class BlockHTML extends Component {
 		const blockType = getBlockType( this.props.block.name );
 		const attributes = getBlockAttributes( blockType, this.state.html, this.props.block.attributes );
 		const isValid = isValidBlock( this.state.html, blockType, attributes );
+
 		this.props.onChange( this.props.clientId, attributes, this.state.html, isValid );
+
+		if ( ! isValid ) {
+			// An error was detected so flip the block back to visual mode so we see the invalid block warning
+			this.props.onToggleMode( this.props.clientId );
+		}
 	}
 
 	onChange( event ) {
@@ -62,6 +68,9 @@ export default compose( [
 	withDispatch( ( dispatch ) => ( {
 		onChange( clientId, attributes, originalContent, isValid ) {
 			dispatch( 'core/editor' ).updateBlock( clientId, { attributes, originalContent, isValid } );
+		},
+		onToggleMode( clientId ) {
+			dispatch( 'core/editor' ).toggleBlockMode( clientId );
 		},
 	} ) ),
 ] )( BlockHTML );
