@@ -27,7 +27,6 @@ function PostPublishPanelPrepublish( {
 } ) {
 	return (
 		<div className="editor-post-publish-panel__prepublish">
-			<div><strong>{ hasPublishAction ? __( 'Are you ready to publish?' ) : __( 'Are you ready to submit for review?' ) }</strong></div>
 			<p>{ hasPublishAction ? __( 'Double-check your settings, then use the button to publish your post.' ) : __( 'When you’re ready, submit your work for review, and an Editor will be able to approve it for you.' ) }</p>
 			{ hasPublishAction && (
 				<Fragment>
