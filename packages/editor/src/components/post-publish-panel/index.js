@@ -8,7 +8,7 @@ import { get } from 'lodash';
  */
 import { __ } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
-import { IconButton, Spinner } from '@wordpress/components';
+import { IconButton, Spinner, CheckboxControl } from '@wordpress/components';
 import { withSelect } from '@wordpress/data';
 import { compose } from '@wordpress/compose';
 
@@ -61,6 +61,12 @@ class PostPublishPanel extends Component {
 		this.setState( { loading: true } );
 	}
 
+	onUpdateDisableToggle() {
+		// There should be a setting to allow users to skip the pre-publish step forever.
+		// When a user toggles this option on, their setting will be saved and they won't need
+		// to press two "publish" buttons in order to make a post happen.
+	}
+
 	render() {
 		const { isScheduled, onClose, forceIsDirty, forceIsSaving, PrePublishExtension, PostPublishExtension, ...additionalProps } = this.props;
 		const { loading, submitted, hasPublishAction } = this.state;
@@ -91,7 +97,7 @@ class PostPublishPanel extends Component {
 					) }
 				</div>
 
-				<div className="editor-post-publish-panel__footer">
+				<div className="editor-post-publish-panel__action-buttons">
 					{ ! submitted && (
 						<div className="editor-post-publish-panel__header-publish-button">
 							<PostPublishButton focusOnMount={ true } onSubmit={ this.onSubmit } forceIsDirty={ forceIsDirty } forceIsSaving={ forceIsSaving } />
@@ -102,6 +108,14 @@ class PostPublishPanel extends Component {
 							{ isScheduled ? __( 'Scheduled' ) : __( 'Published' ) }
 						</div>
 					) }
+				</div>
+
+				<div className="editor-post-publish-panel__disable-check">
+					<CheckboxControl
+						label={ __( 'Don’t show this again' ) }
+						checked={ false }
+						onChange={ () => this.onUpdateDisableToggle() }
+					/>
 				</div>
 
 			</div>
