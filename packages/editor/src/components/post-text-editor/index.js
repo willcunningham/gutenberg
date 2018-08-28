@@ -28,7 +28,7 @@ function computeDerivedState( props ) {
 	};
 }
 
-class PostTextEditor extends Component {
+export class PostTextEditor extends Component {
 	constructor() {
 		super( ...arguments );
 
@@ -73,8 +73,15 @@ class PostTextEditor extends Component {
 	}
 
 	render() {
-		const { value, placeholder, instanceId } = this.props;
+		const { placeholder, instanceId } = this.props;
 		const decodedPlaceholder = decodeEntities( placeholder );
+
+		// While editing text, value is maintained in state. Prefer this value,
+		// deferring to the incoming prop only if not editing (value `null`).
+		let { value } = this.state;
+		if ( value === null ) {
+			value = this.props.value;
+		}
 
 		return (
 			<Fragment>
@@ -83,7 +90,7 @@ class PostTextEditor extends Component {
 				</label>
 				<Textarea
 					autoComplete="off"
-					value={ this.state.value || value }
+					value={ value }
 					onFocus={ this.startEditing }
 					onChange={ this.edit }
 					onBlur={ this.stopEditing }

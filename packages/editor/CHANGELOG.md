@@ -1,6 +1,6 @@
 ## 3.0.0 (Unreleased)
 
-### Breaking Change
+### Breaking Changes
 
 - The `wideAlign` block supports hook has been removed. Use `alignWide` instead.
 - `fetchSharedBlocks` action has been removed. Use `fetchReusableBlocks` instead.
@@ -14,3 +14,7 @@
 - `isFetchingSharedBlock` selector has been removed. Use `isFetchingReusableBlock` instead.
 - `getSharedBlocks` selector has been removed. Use `getReusableBlocks` instead.
 - `editorMediaUpload` has been removed. Use `mediaUpload` instead.
+
+### Bug Fixes
+
+- The `PostTextEditor` component will respect its in-progress state edited value, even if the assigned prop value changes.
