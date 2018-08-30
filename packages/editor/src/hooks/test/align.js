@@ -20,7 +20,7 @@ import {
 import {
 	getBlockValidAlignments,
 	withToolbarControls,
-	withDataAlign,
+	innerWithDataAlign,
 	addAssignedAlign,
 } from '../align';
 
@@ -153,11 +153,11 @@ describe( 'align', () => {
 				...blockSettings,
 				supports: {
 					align: true,
-					alignWide: false,
+					alignWide: true,
 				},
 			} );
 
-			const EnhancedComponent = withDataAlign( ( { wrapperProps } ) => (
+			const EnhancedComponent = innerWithDataAlign( ( { wrapperProps } ) => (
 				<div { ...wrapperProps } />
 			) );
 
@@ -166,13 +166,42 @@ describe( 'align', () => {
 					block={ {
 						name: 'core/foo',
 						attributes: {
-							align: 'left',
+							align: 'wide',
 						},
 					} }
 				/>
 			);
 			expect( wrapper.toTree().rendered.props.wrapperProps ).toEqual( {
-				'data-align': 'left',
+				'data-align': 'wide',
+			} );
+		} );
+
+		it( 'should render no wide/full wrapper props if wide controls are not enabled', () => {
+			registerBlockType( 'core/foo', {
+				...blockSettings,
+				supports: {
+					align: true,
+					alignWide: true,
+				},
+			} );
+
+			const EnhancedComponent = innerWithDataAlign( ( { wrapperProps } ) => (
+				<div { ...wrapperProps } />
+			) );
+
+			const wrapper = renderer.create(
+				<EnhancedComponent
+					block={ {
+						name: 'core/foo',
+						attributes: {
+							align: 'wide',
+						},
+					} }
+					wideControlsEnabled={ false }
+				/>
+			);
+			expect( wrapper.toTree().rendered.props.wrapperProps ).toEqual( {
+				'data-align': 'wide',
 			} );
 		} );
 
@@ -185,7 +214,7 @@ describe( 'align', () => {
 				},
 			} );
 
-			const EnhancedComponent = withDataAlign( ( { wrapperProps } ) => (
+			const EnhancedComponent = innerWithDataAlign( ( { wrapperProps } ) => (
 				<div { ...wrapperProps } />
 			) );
 
