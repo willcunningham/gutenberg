@@ -652,6 +652,7 @@ Returns true if one of the block's inner blocks is selected.
 
  * state: Editor state.
  * clientId: Block client ID.
+ * deep: Perform a deep check.
 
 *Returns*
 
