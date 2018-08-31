@@ -15,7 +15,7 @@ import { withDispatch } from '@wordpress/data';
  */
 import Warning from '../warning';
 
-function BlockInvalidWarning( { convertToHTML, convertToBlocks, convertToClassic } ) {
+function BlockInvalidWarning( { convertToHTML, convertToBlocks, convertToClassic, overwriteBlock } ) {
 	const hasHTMLBlock = !! getBlockType( 'core/html' );
 
 	return (
@@ -33,6 +33,7 @@ function BlockInvalidWarning( { convertToHTML, convertToBlocks, convertToClassic
 			secondaryActions={ [
 				{ title: __( 'Convert to Blocks' ), onClick: convertToBlocks },
 				{ title: __( 'Convert to Classic Block' ), onClick: convertToClassic },
+				{ title: __( 'Overwrite with valid block' ), onClick: overwriteBlock },
 			] }
 		>
 			{ __( 'This block has been modified externally.' ) }
@@ -58,6 +59,11 @@ export default withDispatch( ( dispatch, { block } ) => {
 				HTML: block.originalContent,
 				mode: 'BLOCKS',
 			} ) );
+		},
+		overwriteBlock() {
+			const { name, attributes } = block;
+
+			replaceBlock( block.clientId, createBlock( name, attributes ) );
 		},
 	};
 } )( BlockInvalidWarning );
