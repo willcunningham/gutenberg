@@ -15,6 +15,12 @@
 - `getSharedBlocks` selector has been removed. Use `getReusableBlocks` instead.
 - `editorMediaUpload` has been removed. Use `mediaUpload` instead.
 
+### Deprecations
+
+- The `setupEditor` action has been deprecated. Note: An editor is kept in sync automatically by its post state, without a predefined start point.
+- The `setupEditorState` action has been deprecated. Note: An editor is kept in sync automatically by its post state, without a predefined start point.
+- The `checkTemplateValidity` action has been deprecated. Note: Validity is verified automatically upon block reset.
+
 ### Bug Fixes
 
 - The `PostTextEditor` component will respect its in-progress state edited value, even if the assigned prop value changes.
