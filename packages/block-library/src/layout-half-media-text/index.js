@@ -16,7 +16,7 @@ import {
 /**
  * Internal dependencies
  */
-import edit from './edit';
+import { default as edit, DEFAULT_MEDIA_WIDTH } from './edit';
 
 export const name = 'core/half-media';
 
@@ -41,7 +41,7 @@ export const settings = {
 		mediaAlt: {
 			type: 'string',
 			source: 'attribute',
-			selector: 'img',
+			selector: 'figure img',
 			attribute: 'alt',
 			default: '',
 		},
@@ -55,15 +55,18 @@ export const settings = {
 		mediaUrl: {
 			type: 'string',
 			source: 'attribute',
-			selector: 'video,img',
+			selector: 'figure video,figure img',
 			attribute: 'src',
 		},
 		mediaType: {
 			type: 'string',
 		},
-		width: {
+		mediaWidth: {
 			type: 'number',
-			default: 300,
+			source: 'attribute',
+			selector: 'figure video,figure img',
+			attribute: 'width',
+			default: DEFAULT_MEDIA_WIDTH,
 		},
 	},
 
@@ -81,17 +84,17 @@ export const settings = {
 			mediaPosition,
 			mediaType,
 			mediaUrl,
-			width,
+			mediaWidth,
 		} = attributes;
 		const mediaTypeRenders = {
 			image: () => {
 				return (
-					<img src={ mediaUrl } alt={ mediaAlt } />
+					<img src={ mediaUrl } alt={ mediaAlt } width={ mediaWidth } />
 				);
 			},
 			video: () => {
 				return (
-					<video controls src={ mediaUrl } />
+					<video controls src={ mediaUrl } width={ mediaWidth } />
 				);
 			},
 		};
@@ -107,7 +110,7 @@ export const settings = {
 		};
 		return (
 			<div className={ className } style={ style }>
-				<figure className="wp-block-half-media__media" style={ { width } }>
+				<figure className="wp-block-half-media__media" >
 					{ ( mediaTypeRenders[ mediaType ] || noop )() }
 				</figure>
 				<div className="wp-block-half-media__content">
