@@ -518,6 +518,8 @@ export class BlockListBlock extends Component {
 						isLast={ isLast }
 						isHidden={ ! ( isHovered || isSelected ) || hoverArea !== 'left' }
 						isDragHandleVisible={ ! isPartOfMultiSelection && isMovable }
+						onDragStart={ this.onDragStart }
+						onDragEnd={ this.onDragEnd }
 					/>
 				) }
 				{ shouldRenderBlockSettings && (
