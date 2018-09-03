@@ -311,16 +311,19 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			$new_autosave['ID']          = $old_autosave->ID;
 			$new_autosave['post_author'] = $user_id;
 
-			// If the new autosave has the same content as the post, delete the autosave.
-			$autosave_is_different = false;
+			$is_autosave_newer_than_post = mysql2date( 'U', $old_autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false );
 
-			foreach ( array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields( $post ) ) ) as $field ) {
+			// Check if the autosave is different to either the current post or the current autosave, whichever is newer.
+			$comparison_fields     = $is_autosave_newer_than_post ? $old_autosave : $post;
+			$autosave_is_different = false;
+			foreach ( array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields( $comparison_fields ) ) ) as $field ) {
 				if ( normalize_whitespace( $new_autosave[ $field ] ) != normalize_whitespace( $post->$field ) ) {
 					$autosave_is_different = true;
 					break;
 				}
 			}
 
+			// If the new autosave has the same content as the post, delete the autosave.
 			if ( ! $autosave_is_different ) {
 				wp_delete_post_revision( $old_autosave->ID );
 				return new WP_Error( 'rest_autosave_no_changes', __( 'There is nothing to save. The autosave and the post content are the same.', 'gutenberg' ), array( 'status' => 400 ) );
