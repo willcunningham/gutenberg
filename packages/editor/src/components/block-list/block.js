@@ -517,6 +517,7 @@ export class BlockListBlock extends Component {
 						isFirst={ isFirst }
 						isLast={ isLast }
 						isHidden={ ! ( isHovered || isSelected ) || hoverArea !== 'left' }
+						isDragHandleVisible={ ! isPartOfMultiSelection && isMovable }
 					/>
 				) }
 				{ shouldRenderBlockSettings && (
