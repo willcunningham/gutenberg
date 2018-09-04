@@ -1,7 +1,6 @@
 /**
  * External Dependencies
  */
-import uuid from 'uuid/v4';
 import { partial, castArray } from 'lodash';
 
 /**
@@ -11,6 +10,8 @@ import {
 	getDefaultBlockName,
 	createBlock,
 } from '@wordpress/blocks';
+import deprecated from '@wordpress/deprecated';
+import { dispatch } from '@wordpress/data';
 
 /**
  * Returns an action object used in signalling that editor has initialized with
@@ -548,54 +549,6 @@ export function stopTyping() {
 }
 
 /**
- * Returns an action object used to create a notice.
- *
- * @param {string}    status  The notice status.
- * @param {WPElement} content The notice content.
- * @param {?Object}   options The notice options.  Available options:
- *                              `id` (string; default auto-generated)
- *                              `isDismissible` (boolean; default `true`).
- *
- * @return {Object} Action object.
- */
-export function createNotice( status, content, options = {} ) {
-	const {
-		id = uuid(),
-		isDismissible = true,
-		spokenMessage,
-	} = options;
-	return {
-		type: 'CREATE_NOTICE',
-		notice: {
-			id,
-			status,
-			content,
-			isDismissible,
-			spokenMessage,
-		},
-	};
-}
-
-/**
- * Returns an action object used to remove a notice.
- *
- * @param {string} id The notice id.
- *
- * @return {Object} Action object.
- */
-export function removeNotice( id ) {
-	return {
-		type: 'REMOVE_NOTICE',
-		noticeId: id,
-	};
-}
-
-export const createSuccessNotice = partial( createNotice, 'success' );
-export const createInfoNotice = partial( createNotice, 'info' );
-export const createErrorNotice = partial( createNotice, 'error' );
-export const createWarningNotice = partial( createNotice, 'warning' );
-
-/**
  * Returns an action object used to fetch a single reusable block or all
  * reusable blocks from the REST API into the store.
  *
@@ -763,3 +716,36 @@ export function unregisterToken( name ) {
 		name,
 	};
 }
+
+//
+// Deprecated
+//
+
+export function createNotice( status, content, options ) {
+	deprecated( 'createNotice action (`core/editor` store)', {
+		alternative: 'createNotice action (`core/notices` store)',
+		plugin: 'Gutenberg',
+		version: '4.0',
+	} );
+
+	dispatch( 'core/notices' ).createNotice( status, content, options );
+
+	return { type: '__INERT__' };
+}
+
+export function removeNotice( id ) {
+	deprecated( 'removeNotice action (`core/editor` store)', {
+		alternative: 'removeNotice action (`core/notices` store)',
+		plugin: 'Gutenberg',
+		version: '4.0',
+	} );
+
+	dispatch( 'core/notices' ).removeNotice( id );
+
+	return { type: '__INERT__' };
+}
+
+export const createSuccessNotice = partial( createNotice, 'success' );
+export const createInfoNotice = partial( createNotice, 'info' );
+export const createErrorNotice = partial( createNotice, 'error' );
+export const createWarningNotice = partial( createNotice, 'warning' );

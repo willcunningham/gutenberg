@@ -103,6 +103,7 @@ const gutenbergPackages = [
 	'i18n',
 	'is-shallow-equal',
 	'keycodes',
+	'notices',
 	'nux',
 	'plugins',
 	'redux-routine',

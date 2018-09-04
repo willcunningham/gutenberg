@@ -400,6 +400,16 @@ function gutenberg_register_scripts_and_styles() {
 		filemtime( gutenberg_dir_path() . 'build/blocks/index.js' ),
 		true
 	);
+	wp_register_script(
+		'wp-notices',
+		gutenberg_url( 'build/notices/index.js' ),
+		array(
+			'lodash',
+			'wp-data',
+		),
+		filemtime( gutenberg_dir_path() . 'build/notices/index.js' ),
+		true
+	);
 
 	wp_add_inline_script(
 		'wp-blocks',
@@ -588,6 +598,7 @@ function gutenberg_register_scripts_and_styles() {
 			'wp-i18n',
 			'wp-is-shallow-equal',
 			'wp-keycodes',
+			'wp-notices',
 			'wp-nux',
 			'wp-tinymce',
 			'wp-token-list',
