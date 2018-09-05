@@ -2,7 +2,6 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import ResizableBox from 're-resizable';
 
 /**
  * WordPress dependencies
@@ -27,16 +26,16 @@ import { compose } from '@wordpress/compose';
 const MEDIA_POSITIONS = [ 'left', 'right' ];
 const ALLOWED_BLOCKS = [ 'core/button', 'core/paragraph', 'core/heading', 'core/list' ];
 const TEMPLATE = [
-	[ 'core/paragraph', { fontSize: 'large', placeholder: 'Content...' } ],
+	[ 'core/paragraph', { fontSize: 'large', placeholder: 'Content…' } ],
 ];
 const MAX_MEDIA_WIDTH = 900;
-export const DEFAULT_MEDIA_WIDTH = 350;
 
 class ImageEdit extends Component {
 	constructor() {
 		super( ...arguments );
 
 		this.onSelectMedia = this.onSelectMedia.bind( this );
+		this.onWidthChange = this.onWidthChange.bind( this );
 	}
 
 	onSelectMedia( media ) {
@@ -52,39 +51,26 @@ class ImageEdit extends Component {
 		} );
 	}
 
+	onWidthChange( width ) {
+		const { setAttributes } = this.props;
+
+		setAttributes( {
+			mediaWidth: width,
+		} );
+	}
+
 	renderMediaArea() {
-		const { attributes, setAttributes } = this.props;
+		const { attributes } = this.props;
 		const { mediaAlt, mediaId, mediaPosition, mediaType, mediaUrl, mediaWidth } = attributes;
-		const handleClasses = {
-			left: 'block-library-half-media__resize-handler',
-			right: 'block-library-half-media__resize-handler',
-		};
-		const onResizeStop = ( event, direction, elt, delta ) => {
-			setAttributes( {
-				mediaWidth: parseInt( mediaWidth + delta.width, 10 ),
-			} );
-		};
-		const enablePositions = {
-			right: mediaPosition === 'left',
-			left: mediaPosition === 'right',
-		};
+
 		return (
-			<ResizableBox
-				className="block-library-half-media__resizer"
-				size={ { width: mediaWidth } }
-				minWidth="10"
+			<MediaContainer
 				maxWidth={ MAX_MEDIA_WIDTH }
-				handleClasses={ handleClasses }
-				enable={ enablePositions }
-				onResizeStop={ onResizeStop }
-				axis="x"
-			>
-				<MediaContainer
-					className="block-library-half-media__media-container"
-					onSelectMedia={ this.onSelectMedia }
-					{ ...{ mediaAlt, mediaId, mediaType, mediaUrl } }
-				/>
-			</ResizableBox>
+				className="block-library-half-media__media-container"
+				onSelectMedia={ this.onSelectMedia }
+				onWidthChange={ this.onWidthChange }
+				{ ...{ mediaAlt, mediaId, mediaType, mediaUrl, mediaPosition, mediaWidth } }
+			/>
 		);
 	}
 

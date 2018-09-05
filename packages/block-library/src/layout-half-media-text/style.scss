@@ -1,7 +1,7 @@
 .wp-block-half-media,
 .wp-block-half-media.aligncenter {
 	display: grid;
-	grid-template-columns: min-content auto;
+	grid-template-columns: fit-content(50%) auto;
 	grid-template-rows: auto;
 	grid-template-areas: "half-media-media half-media-content";
 	align-items: center;
@@ -17,7 +17,7 @@
 	grid-area: half-media-content;
 }
 .wp-block-half-media.has-media-on-the-right {
-	grid-template-columns: auto min-content;
+	grid-template-columns: auto fit-content(50%);
 	grid-template-areas: "half-media-content half-media-media";
 }
 

@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import ResizableBox from 're-resizable';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -78,14 +83,43 @@ class MediaContainer extends Component {
 	}
 
 	render() {
-		const { mediaUrl, mediaType } = this.props;
+		const { maxWidth, mediaPosition, mediaUrl, mediaType, mediaWidth, onWidthChange } = this.props;
 		if ( mediaType && mediaUrl ) {
+			const handleClasses = {
+				left: 'block-library-half-media__resize-handler',
+				right: 'block-library-half-media__resize-handler',
+			};
+			const onResizeStop = ( event, direction, elt, delta ) => {
+				onWidthChange( mediaWidth + delta.width );
+			};
+			const enablePositions = {
+				right: mediaPosition === 'left',
+				left: mediaPosition === 'right',
+			};
+
+			let mediaElement = null;
 			switch ( mediaType ) {
 				case 'image':
-					return this.renderImage();
+					mediaElement = this.renderImage();
+					break;
 				case 'video':
-					return this.renderVideo();
+					mediaElement = this.renderVideo();
+					break;
 			}
+			return (
+				<ResizableBox
+					className="block-library-half-media__resizer"
+					size={ { width: mediaWidth } }
+					minWidth="10"
+					maxWidth={ maxWidth }
+					handleClasses={ handleClasses }
+					enable={ enablePositions }
+					onResizeStop={ onResizeStop }
+					axis="x"
+				>
+					{ mediaElement }
+				</ResizableBox>
+			);
 		}
 		return this.renderPlaceholder();
 	}

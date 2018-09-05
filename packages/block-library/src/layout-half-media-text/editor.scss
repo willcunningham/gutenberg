@@ -11,12 +11,19 @@
 }
 
 .block-library-half-media__resize-handler {
-	display: block;
+	display: none;
+	border-radius: 50%;
 	border: 2px solid $white;
+	width: 16px !important;
+	height: 16px !important;
 	position: absolute;
 	background: theme(primary);
+	top: calc(50% - 9px) !important;
 }
 
+.editor-block-list__block.is-selected .block-library-half-media__resize-handler {
+	display: block;
+}
 
 .wp-block-half-media > .editor-inner-blocks > .editor-block-list__layout > .editor-block-list__block {
 	max-width: unset;

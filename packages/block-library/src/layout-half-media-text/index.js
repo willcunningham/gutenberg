@@ -16,7 +16,7 @@ import {
 /**
  * Internal dependencies
  */
-import { default as edit, DEFAULT_MEDIA_WIDTH } from './edit';
+import edit from './edit';
 
 export const name = 'core/half-media';
 
@@ -66,7 +66,6 @@ export const settings = {
 			source: 'attribute',
 			selector: 'figure video,figure img',
 			attribute: 'width',
-			default: DEFAULT_MEDIA_WIDTH,
 		},
 	},
 
