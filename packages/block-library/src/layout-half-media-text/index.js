@@ -70,7 +70,7 @@ export const settings = {
 	},
 
 	supports: {
-		align: [ 'center', 'wide', 'full' ],
+		align: [ 'wide', 'full' ],
 	},
 
 	edit,
