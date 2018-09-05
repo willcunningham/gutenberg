@@ -223,13 +223,13 @@ body.gutenberg-editor-page {
 		&::-webkit-input-placeholder {
 			color: $dark-opacity-300;
 		}
+
 		&::-moz-placeholder {
+			opacity: 1; // Necessary because Firefox reduces this from 1.
 			color: $dark-opacity-300;
 		}
+
 		&:-ms-input-placeholder {
-			color: $dark-opacity-300;
-		}
-		&:-moz-placeholder {
 			color: $dark-opacity-300;
 		}
 
@@ -237,13 +237,13 @@ body.gutenberg-editor-page {
 			&::-webkit-input-placeholder {
 				color: $light-opacity-300;
 			}
+
 			&::-moz-placeholder {
+				opacity: 1; // Necessary because Firefox reduces this from 1.
 				color: $light-opacity-300;
 			}
+
 			&:-ms-input-placeholder {
-				color: $light-opacity-300;
-			}
-			&:-moz-placeholder {
 				color: $light-opacity-300;
 			}
 		}

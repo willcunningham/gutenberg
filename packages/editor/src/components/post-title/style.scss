@@ -40,13 +40,12 @@
 		&::-webkit-input-placeholder {
 			color: $dark-opacity-200;
 		}
+
 		&::-moz-placeholder {
 			color: $dark-opacity-200;
 		}
+
 		&:-ms-input-placeholder {
-			color: $dark-opacity-200;
-		}
-		&:-moz-placeholder {
 			color: $dark-opacity-200;
 		}
 	}
