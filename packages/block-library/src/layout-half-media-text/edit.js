@@ -9,7 +9,6 @@ import classnames from 'classnames';
 import { __ } from '@wordpress/i18n';
 import {
 	BlockControls,
-	BlockAlignmentToolbar,
 	InnerBlocks,
 	InspectorControls,
 	PanelColorSettings,
@@ -19,11 +18,11 @@ import {
 import { Component, Fragment } from '@wordpress/element';
 import { withSelect } from '@wordpress/data';
 import { compose } from '@wordpress/compose';
+import { Toolbar } from '@wordpress/components';
 
 /**
  * Constants
  */
-const MEDIA_POSITIONS = [ 'left', 'right' ];
 const ALLOWED_BLOCKS = [ 'core/button', 'core/paragraph', 'core/heading', 'core/list' ];
 const TEMPLATE = [
 	[ 'core/paragraph', { fontSize: 'large', placeholder: 'Content…' } ],
@@ -106,10 +105,18 @@ class ImageEdit extends Component {
 					/>
 				</InspectorControls>
 				<BlockControls>
-					<BlockAlignmentToolbar
-						controls={ MEDIA_POSITIONS }
-						value={ attributes.mediaPosition }
-						onChange={ ( newMediaPosition ) => setAttributes( { mediaPosition: newMediaPosition } ) }
+					<Toolbar
+						controls={ [ {
+							icon: 'align-left',
+							title: __( 'Media on the left' ),
+							isActive: mediaPosition === 'left',
+							onClick: () => setAttributes( { mediaPosition: 'left' } ),
+						}, {
+							icon: 'align-left',
+							title: __( 'Media on the left' ),
+							isActive: mediaPosition === 'right',
+							onClick: () => setAttributes( { mediaPosition: 'right' } ),
+						} ] }
 					/>
 				</BlockControls>
 			</Fragment>
